@@ -1,0 +1,221 @@
+Example # 1
+
+*** HTML ***
+<h1>Welcome!</h1>
+<button onclick="hello()">Click Here!</button>
+
+*** Javascript ***
+function hello() {
+	document.querySelector('h1').innerHTML = "Hello!";
+}
+
+-
+
+Example # 2
+
+*** HTML ***
+<h1>Welcome!</h1>
+<h1>Welcome again!</h1>
+<button onclick="hello()">Click Here!</button>
+
+*** Javascript ***
+function hello() {
+	const headings = document.querySelectorAll('h1');
+	for (const heading of headings) {
+		heading.innerHTML = "Hello!";
+	}
+}
+
+-
+
+Example # 3
+
+*** HTML ***
+<h1 id="counter">0</h1>
+<button onclick="count()">Click Here!</button>
+
+*** Javascript ***
+let counter = 0;
+
+function count() {
+	counter++;
+	document.querySelector('#counter').innerHTML = counter;
+}
+
+-
+
+Example # 4
+
+*** HTML ***
+<h1 id="counter">0</h1>
+<button>Click Here!</button>
+
+*** Javascript ***
+document.addEventListener("DOMContentLoaded", function() {
+	document.querySelector('button').onclick = count;
+});
+
+let counter = 0;
+
+function count() {
+	counter++;
+	document.querySelector('#counter').innerHTML = counter;
+}
+
+-
+
+Example # 5
+
+*** HTML ***
+<h1 id="hello">Hello!</h1>
+<button id="red">Red</button>
+<button id="blue">Blue</button>
+<button id="green">Green</button>
+
+*** Javascript ***
+document.addEventListener("DOMContentLoaded", function() {
+	
+	// Change font color to red
+	document.querySelector('#red').onclick = function() {
+		document.querySelector('#hello').style.color = 'red';
+	};
+
+	// Change font color to blue
+	document.querySelector('#blue').onclick = function() {
+		document.querySelector('#hello').style.color = 'blue';
+	};
+
+	// Change font color to green
+	document.querySelector('#green').onclick = function() {
+		document.querySelector('#hello').style.color = 'green';
+	};
+});
+
+-
+
+Example # 6
+
+*** HTML ***
+<h1 id="hello">Hello!</h1>
+<button class="color-change" data-color="red">Red</button>
+<button class="color-change" data-color="blue">Blue</button>
+<button  class="color-change" data-color="green">Green</button>
+
+*** Javascript ***
+document.addEventListener("DOMContentLoaded", function() {
+
+	// Have each button change the color of the heading
+	document.querySelectorAll('.color-change').forEach(function(button) {
+		button.onclick = function() {
+			document.querySelector('#hello').style.color = button.dataset.color;
+		};
+	});
+
+});
+
+-
+
+/* Arrow Functions
+
+(param1, param2, …, paramN) => { statements }
+
+// Parentheses are optional when there's only one parameter name:
+(singleParam) => { statements }
+singleParam => { statements }
+
+// The parameter list for a function with no parameters should be written with a pair of parentheses.
+() => { statements }
+
+*/
+
+Example # 7
+
+let arr = [1, 2, 3, 4, 5];
+
+arr.forEach(function(elt) {
+console.log(elt)
+});
+
+// same as above
+arr.forEach(elt => console.log(elt));
+arr.map(elt => console.log(elt));
+
+/* NOTE: 'elt' is just an arbitrary name. You can name it whatever you want.
+
+It’s important to also understand that using map() may be preferable if you favor functional programming.
+This is because forEach() affects and changes our original Array, whereas map() returns an entirely new Array — thus leaving the original array unchanged. */
+
+[1, 2, 3, 4, 5].filter(elt => elt > 2);
+// returns a new array [3, 4, 5]
+
+-
+
+Example # 8
+
+*** HTML ***
+<h1>Tasks</h1>
+<ul id="tasks"></ul>
+<form id="new-task">
+	<input id="task" type="text" placeholder="New Task">
+	<button>Submit</button>
+</form>
+
+*** Javascript ***
+document.addEventListener("DOMContentLoaded", () => {
+
+	document.querySelector('#new-task').onsubmit = () => {
+
+		let text = document.querySelector('#task').value;
+
+		if (text.length > 0) {
+			// Create a new item for list
+			const li = document.createElement('li');
+			li.innerHTML = text;
+
+			// Add new item to task list
+			document.querySelector('#tasks').append(li);
+
+			// Clear input field
+			document.querySelector('#task').value = '';
+		}
+		
+		else {
+			alert("Pleae type a text!");
+		}
+
+		// Stop from submitting
+		return false;
+	};
+});
+
+-
+
+Example # 9
+
+*** HTML ***
+<form id="form">
+	<input id="currency" type="text" placeholder="Currency">
+	<input type="submit" value="Get Exchange Rate">
+</form>
+<hr>
+<div id="result"></div>
+
+*** Javascript ***
+document.addEventListener('DOMContentLoaded', () => {
+	document.querySelector('#form').onsubmit = () => {
+		const currency = document.querySelector('#currency').value;
+		fetch(`https://api.exchangeratesapi.io/latest?base=USD&symbols=${currency}`)
+		.then(response => response.json())
+		.then(data => {
+			const contents = `1 USD is equal to ${data.rates[currency]} ${currency}.`
+			document.querySelector('#result').innerHTML = contents;
+		})
+		.catch(()=>{
+			document.querySelector('#result').innerHTML = 'Error.';
+		});
+
+		return false;
+	};
+});
+
+-
